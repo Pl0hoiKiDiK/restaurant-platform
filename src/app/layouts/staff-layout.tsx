@@ -44,14 +44,14 @@ export function StaffLayout({ children }: PropsWithChildren) {
         <nav className="flex w-[212px] flex-col gap-2">
           {staffNavigationItems.map(({ label, icon, isActive }) => (
             <button
-              className={[
-                'flex h-14 w-[212px] items-center gap-2 px-4',
-                'bg-[#393939] text-left font-medium text-white',
-                'transition-colors hover:bg-[#4a4a4a]',
-                isActive ? 'ring-1 ring-white/40' : '',
-              ].join(' ')}
-              key={label}
-              type="button"
+                className={[
+                    'flex h-14 w-[212px] items-center gap-2 px-4 text-left font-medium transition-colors',
+                    isActive
+                        ? 'bg-white text-[#383838]'
+                        : 'bg-[#393939] text-white hover:bg-[#4A4A4A]',
+                ].join(' ')}
+                key={label}
+                type="button"
             >
               <img
                 alt=""
