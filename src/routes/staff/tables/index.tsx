@@ -1,23 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { StaffLayout } from '@/app/layouts/staff-layout';
+
 export const Route = createFileRoute('/staff/tables/')({
   component: TablesPage,
 });
 
 function TablesPage() {
   return (
-    <main className="min-h-screen bg-neutral-100 p-6">
-      <section className="mx-auto max-w-6xl rounded-lg border border-neutral-200 bg-white p-8 shadow-sm">
-        <p className="text-sm text-neutral-500">Staff mode</p>
-
-        <h1 className="mt-2 text-3xl font-semibold text-neutral-900">
-          Tables
-        </h1>
-
-        <p className="mt-3 text-sm text-neutral-600">
-          Restaurant tables dashboard will be implemented here.
-        </p>
-      </section>
-    </main>
+    <StaffLayout>
+      <h1 className="text-2xl font-semibold leading-8 text-[#222222]">
+        Tables
+      </h1>
+    </StaffLayout>
   );
 }
