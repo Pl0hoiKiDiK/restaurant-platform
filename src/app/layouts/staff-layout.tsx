@@ -1,3 +1,4 @@
+import { Link, useRouterState } from '@tanstack/react-router';
 import type { PropsWithChildren } from 'react';
 
 import notificationIcon from '@/assets/icons/notification-icon.svg';
@@ -7,29 +8,20 @@ import statisticsButtonIcon from '@/assets/icons/statistics-button-icon.svg';
 import tablesButtonIcon from '@/assets/icons/tables-button-icon.svg';
 import userIcon from '@/assets/icons/user-icon.svg';
 
-interface StaffNavigationItem {
-  label: string;
-  icon: string;
-  isActive?: boolean;
-}
-
-const staffNavigationItems: StaffNavigationItem[] = [
-  {
-    label: 'Tables',
-    icon: tablesButtonIcon,
-    isActive: true,
-  },
-  {
-    label: 'Orders',
-    icon: orderButtonIcon,
-  },
-  {
-    label: 'Statistics',
-    icon: statisticsButtonIcon,
-  },
-];
-
 export function StaffLayout({ children }: PropsWithChildren) {
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+
+  const isTablesPage = pathname === '/staff/tables';
+
+  const tablesLinkClassName = [
+    'flex h-14 w-[212px] items-center gap-2 px-4 text-left font-medium transition-colors',
+    isTablesPage
+      ? 'bg-white text-[#383838]'
+      : 'bg-[#393939] text-white hover:bg-[#4A4A4A]',
+  ].join(' ');
+
   return (
     <div className="min-h-screen bg-white text-[#222222] xl:flex">
       <aside className="hidden min-h-screen w-[260px] shrink-0 bg-[#222222] p-6 xl:block">
@@ -42,27 +34,44 @@ export function StaffLayout({ children }: PropsWithChildren) {
         <div className="my-6 h-px w-[212px] bg-white" />
 
         <nav className="flex w-[212px] flex-col gap-2">
-          {staffNavigationItems.map(({ label, icon, isActive }) => (
-            <button
-                className={[
-                    'flex h-14 w-[212px] items-center gap-2 px-4 text-left font-medium transition-colors',
-                    isActive
-                        ? 'bg-white text-[#383838]'
-                        : 'bg-[#393939] text-white hover:bg-[#4A4A4A]',
-                ].join(' ')}
-                key={label}
-                type="button"
-            >
-              <img
-                alt=""
-                aria-hidden="true"
-                className="size-6 shrink-0"
-                src={icon}
-              />
+          <Link className={tablesLinkClassName} to="/staff/tables">
+            <img
+              alt=""
+              aria-hidden="true"
+              className="size-6 shrink-0"
+              src={tablesButtonIcon}
+            />
 
-              <span className="text-base leading-6">{label}</span>
-            </button>
-          ))}
+            <span className="text-base leading-6">Tables</span>
+          </Link>
+
+          <button
+            className="flex h-14 w-[212px] items-center gap-2 bg-[#393939] px-4 text-left font-medium text-white transition-colors hover:bg-[#4A4A4A]"
+            type="button"
+          >
+            <img
+              alt=""
+              aria-hidden="true"
+              className="size-6 shrink-0"
+              src={orderButtonIcon}
+            />
+
+            <span className="text-base leading-6">Orders</span>
+          </button>
+
+          <button
+            className="flex h-14 w-[212px] items-center gap-2 bg-[#393939] px-4 text-left font-medium text-white transition-colors hover:bg-[#4A4A4A]"
+            type="button"
+          >
+            <img
+              alt=""
+              aria-hidden="true"
+              className="size-6 shrink-0"
+              src={statisticsButtonIcon}
+            />
+
+            <span className="text-base leading-6">Statistics</span>
+          </button>
         </nav>
       </aside>
 
