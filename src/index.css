@@ -95,13 +95,6 @@ body {
   margin: 0;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
 @theme inline {
   --font-heading:
     var(--font-sans);
@@ -260,4 +253,30 @@ textarea {
   html {
     @apply font-sans;
   }
+}
+
+.leaflet-tooltip {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #222222;
+  padding: 0;
+}
+
+.leaflet-tooltip::before {
+  display: none;
+}
+
+.leaflet-tooltip-bottom {
+  margin-top: -3px;
+}
+
+.restaurant-map-label {
+  color: #222222;
+  font-family: Inter, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 12px;
+  white-space: nowrap;
 }
