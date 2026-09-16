@@ -2,15 +2,29 @@ import type { Restaurant } from '@/features/restaurants/types/restaurant.types';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
+  isSelected: boolean;
+  onSelect: (restaurantId: string) => void;
 }
 
 export function RestaurantCard({
   restaurant,
+  isSelected,
+  onSelect,
 }: RestaurantCardProps) {
   const cuisineText = restaurant.cuisines.join(' • ');
 
   return (
-    <article className="min-h-[152px] w-full rounded-[8px] border border-black/10 bg-white p-4">
+    <button
+      aria-pressed={isSelected}
+      className={[
+        'min-h-[152px] w-full rounded-[8px] border bg-white p-4 text-left transition-colors',
+        isSelected
+          ? 'border-[#F34336] ring-1 ring-[#F34336]/20'
+          : 'border-black/10 hover:border-black/20',
+      ].join(' ')}
+      onClick={() => onSelect(restaurant.id)}
+      type="button"
+    >
       <div className="grid w-full grid-cols-4 gap-1">
         {restaurant.imageColors.map((color, index) => (
           <div
@@ -34,6 +48,6 @@ export function RestaurantCard({
       <p className="mt-2 truncate text-sm font-normal leading-5 text-[#222222]/50">
         {restaurant.city} • {cuisineText} • {restaurant.priceLevel}
       </p>
-    </article>
+    </button>
   );
 }

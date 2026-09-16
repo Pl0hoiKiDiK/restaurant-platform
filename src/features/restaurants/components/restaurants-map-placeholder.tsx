@@ -1,15 +1,30 @@
-import { Icon } from "leaflet";
-import { MapContainer, Marker, Popup, TileLayer, Tooltip } from "react-leaflet";
+import { Icon } from 'leaflet';
+import { useEffect } from 'react';
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  Tooltip,
+  useMap,
+} from 'react-leaflet';
 
-import pinIcon from "@/assets/icons/pin-icon.svg";
-import pinRedIcon from "@/assets/icons/pin-red-icon.svg";
-import type { Restaurant } from "@/features/restaurants/types/restaurant.types";
+import pinIcon from '@/assets/icons/pin-icon.svg';
+import pinRedIcon from '@/assets/icons/pin-red-icon.svg';
+import type { Restaurant } from '@/features/restaurants/types/restaurant.types';
 
 interface RestaurantsMapProps {
   restaurants: Restaurant[];
+  selectedRestaurantId: string | null;
+  onRestaurantSelect: (restaurantId: string) => void;
+}
+
+interface MapFocusControllerProps {
+  restaurant: Restaurant | null;
 }
 
 const mapCenter: [number, number] = [40.7282, -74.0479];
+const selectedRestaurantZoom = 13;
 
 const defaultPinIcon = new Icon({
   iconUrl: pinIcon,
@@ -25,9 +40,35 @@ const activePinIcon = new Icon({
   popupAnchor: [0, -22],
 });
 
+function MapFocusController({ restaurant }: MapFocusControllerProps) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (restaurant === null) {
+      return;
+    }
+
+    map.flyTo(
+      [restaurant.coordinates.latitude, restaurant.coordinates.longitude],
+      selectedRestaurantZoom,
+      {
+        duration: 0.7,
+      },
+    );
+  }, [map, restaurant]);
+
+  return null;
+}
+
 export function RestaurantsMapPlaceholder({
   restaurants,
+  selectedRestaurantId,
+  onRestaurantSelect,
 }: RestaurantsMapProps) {
+  const selectedRestaurant =
+    restaurants.find((restaurant) => restaurant.id === selectedRestaurantId) ??
+    null;
+
   return (
     <section className="h-full w-full overflow-hidden rounded-[4px] border border-black/10">
       <MapContainer
@@ -43,12 +84,17 @@ export function RestaurantsMapPlaceholder({
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
 
-        {restaurants.map((restaurant, index) => {
-          const isHighlighted = index === 2;
+        <MapFocusController restaurant={selectedRestaurant} />
+
+        {restaurants.map((restaurant) => {
+          const isSelected = restaurant.id === selectedRestaurantId;
 
           return (
             <Marker
-              icon={isHighlighted ? activePinIcon : defaultPinIcon}
+              eventHandlers={{
+                click: () => onRestaurantSelect(restaurant.id),
+              }}
+              icon={isSelected ? activePinIcon : defaultPinIcon}
               key={restaurant.id}
               position={[
                 restaurant.coordinates.latitude,
@@ -56,7 +102,7 @@ export function RestaurantsMapPlaceholder({
               ]}
             >
               <Tooltip direction="bottom" permanent>
-                <span className="whitespace-nowrap font-['Inter'] text-[13px] font-bold leading-3 text-[#222222]">
+                <span className="restaurant-map-label">
                   {restaurant.name}
                 </span>
               </Tooltip>
@@ -68,7 +114,7 @@ export function RestaurantsMapPlaceholder({
                   </p>
 
                   <p className="mt-1 text-xs text-[#222222]/60">
-                    {restaurant.city} · {restaurant.cuisines.join(", ")} ·{" "}
+                    {restaurant.city} · {restaurant.cuisines.join(', ')} ·{' '}
                     {restaurant.priceLevel}
                   </p>
 
