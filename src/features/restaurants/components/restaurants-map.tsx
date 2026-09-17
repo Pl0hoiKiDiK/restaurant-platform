@@ -73,14 +73,16 @@ export function RestaurantsMap({
         zoomControl={false}
       >
         <TileLayer
-          attribution='&copy; <a href="https://stadiamaps.com/attribution/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           eventHandlers={{
             tileloadstart: ({ tile }) => {
-              if (tile instanceof HTMLImageElement) tile.fetchPriority = 'high';
+              if (tile instanceof HTMLImageElement) {
+                tile.fetchPriority = 'high';
+              }
             },
           }}
-          maxZoom={20}
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
+          maxZoom={19}
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
         <MapFocusController restaurant={selectedRestaurant} />
