@@ -1,4 +1,6 @@
 export const firestoreCollections = {
-  tables: 'tables',
+  employees: 'employees',
+  restaurants: 'restaurants',
   tableOrders: 'tableOrders',
+  tables: 'tables',
 } as const;

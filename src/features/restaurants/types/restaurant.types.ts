@@ -9,6 +9,10 @@ export interface RestaurantCoordinates {
   longitude: number;
 }
 
+export type RestaurantImageKeys =
+  | [string, string, string, string]
+  | null;
+
 export interface Restaurant {
   id: string;
   name: string;
@@ -16,7 +20,7 @@ export interface Restaurant {
   city: string;
   cuisines: RestaurantCuisine[];
   priceLevel: '$' | '$$' | '$$$';
-  imageColors: [string, string, string, string];
+  imageKeys: RestaurantImageKeys;
   coordinates: RestaurantCoordinates;
   isFeatured?: boolean;
 }

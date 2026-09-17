@@ -8,7 +8,7 @@ export const mockRestaurants: Restaurant[] = [
     city: 'New York City',
     cuisines: ['Asian'],
     priceLevel: '$$',
-    imageColors: ['#D6782D', '#D94D48', '#A91F3D', '#B96A35'],
+    imageKeys: ['mikado-1', 'mikado-2', 'mikado-3', 'mikado-4'],
     coordinates: {
       latitude: 40.7568,
       longitude: -74.0142,
@@ -21,7 +21,7 @@ export const mockRestaurants: Restaurant[] = [
     city: 'New York City',
     cuisines: ['Asian Fusion'],
     priceLevel: '$$',
-    imageColors: ['#CF6B36', '#E0AA42', '#B18A31', '#9C513D'],
+    imageKeys: ['nana-1', 'nana-2', 'nana-3', 'nana-4'],
     coordinates: {
       latitude: 40.7147,
       longitude: -73.9973,
@@ -34,7 +34,7 @@ export const mockRestaurants: Restaurant[] = [
     city: 'New York City',
     cuisines: ['Thai'],
     priceLevel: '$$',
-    imageColors: ['#D4A14C', '#C88534', '#DEB33D', '#A67432'],
+    imageKeys: null,
     coordinates: {
       latitude: 40.7388,
       longitude: -74.0576,
@@ -47,7 +47,7 @@ export const mockRestaurants: Restaurant[] = [
     city: 'New York City',
     cuisines: ['Chinese'],
     priceLevel: '$$',
-    imageColors: ['#7F9224', '#D5A42E', '#D49A20', '#5D4C26'],
+    imageKeys: ['mala-1', 'mala-2', 'mala-3', 'mala-4'],
     coordinates: {
       latitude: 40.756,
       longitude: -74.1745,
@@ -60,7 +60,7 @@ export const mockRestaurants: Restaurant[] = [
     city: 'New York City',
     cuisines: ['Thai'],
     priceLevel: '$$',
-    imageColors: ['#D69728', '#AA4D2C', '#C86A25', '#9B4A2D'],
+    imageKeys: ['thai-1', 'thai-2', 'thai-3', 'thai-4'],
     coordinates: {
       latitude: 40.6755,
       longitude: -74.1215,
