@@ -25,3 +25,7 @@ dist-ssr
 .env.*.local
 .tanstack/
 src-structure.txt
+.env.*
+!.env.example
+coverage/
+.vercel/

@@ -1,75 +1,164 @@
-# React + TypeScript + Vite
+# Restaurant Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Учебное SPA для стажировки: поиск ресторанов, просмотр плана зала, работа с заказами и справочник сотрудников. Интерфейс реализован по макету Figma.
 
-Currently, two official plugins are available:
+**Репозиторий:** [Pl0hoiKiDiK/restaurant-platform](https://github.com/Pl0hoiKiDiK/restaurant-platform).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Деплой:** пока не опубликован. После публикации добавьте сюда URL. Настройки Vercel уже находятся в `vercel.json`.
 
-## React Compiler
+## Возможности
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Рестораны: загрузка из Firestore, поиск по названию/городу/кухне, фильтры и интерактивная карта.
+- Столы: свободные, занятые и зарезервированные столы на плане зала.
+- Заказ занятого стола: добавление и удаление блюд, количество, комментарии, скидка и завершение заказа.
+- Завершение заказа атомарно очищает активные позиции и освобождает стол. Итоги последнего закрытия сохраняются в `lastReceipt`; это не интеграция с оплатой.
+- Сотрудники: загрузка списка из Firestore и отображение статистики.
+- Состояния загрузки, ошибок и отсутствия данных.
 
-## Expanding the ESLint configuration
+Некоторые элементы макета пока являются заглушками: дополнительные разделы CRM, уведомления, профиль, корзина, фильтры сотрудников, бонусы и массовое выделение. Они не относятся к обязательному функционалу задания. Начало нового заказа, бронирование и авторизация в текущий объём не входят. WebSocket-чат исключён из объёма работы.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Стек и зависимости
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Задача                     | Инструменты                                                              |
+| -------------------------- | ------------------------------------------------------------------------ |
+| Интерфейс                  | React 19, TypeScript 6                                                   |
+| Сборка                     | Vite 8, `@vitejs/plugin-react`                                           |
+| Маршруты                   | TanStack Router 1, `@tanstack/router-plugin`                             |
+| Серверное состояние        | TanStack Query 5                                                         |
+| Данные                     | Firebase 12, Cloud Firestore Lite                                        |
+| UI и стили                 | Tailwind CSS 4, shadcn/ui, Base UI, `tw-animate-css`                     |
+| Классы компонентов         | `clsx`, `tailwind-merge`, `class-variance-authority`                     |
+| Карта                      | Leaflet, React Leaflet                                                   |
+| Уведомления, иконки, шрифт | Sonner, Lucide React, Geist                                              |
+| Качество                   | ESLint, typescript-eslint, React Hooks/Refresh plugins, Prettier, Vitest |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Полный список и диапазоны версий — в `package.json`, зафиксированные версии — в `package-lock.json`. Vitest и Prettier — инструменты разработки, в браузерный bundle не входят.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+[Firestore Lite](https://firebase.google.com/docs/firestore/solutions/firestore-lite) использует REST и подходит для текущих запросов и изменений документов. Snapshot listeners и автономная запись не используются. Кэширование, повторные запросы и состояния загрузки реализованы через TanStack Query.
 
+## Локальный запуск
+
+Нужен Node.js 22.12+; для одинакового окружения с CI используйте Node.js 24.
+
+```bash
+npm ci
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Создайте `.env` на основе `.env.example`. В PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Заполните переменные из настроек вашего Firebase Web App:
+
+```dotenv
+VITE_FIREBASE_API_KEY=your-api-key
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+VITE_FIREBASE_APP_ID=your-app-id
+```
+
+В Firebase должна быть создана база Cloud Firestore. Её правила должны разрешать операции текущему приложению. Этот репозиторий не меняет опубликованные Firebase Security Rules. Названия рабочих пространств не являются разграничением доступа: Firebase Authentication здесь не реализована.
+
+`VITE_*` — клиентская конфигурация, она попадает в сборку. Не помещайте сюда service-account ключи. Локальный `.env` исключён из Git.
+
+```bash
+npm run dev
+```
+
+Откройте адрес из терминала. После изменения `.env` перезапустите Vite.
+
+### Данные для демонстрации
+
+Коллекции:
+
+| Коллекция     | Назначение                                                            |
+| ------------- | --------------------------------------------------------------------- |
+| `restaurants` | Рестораны, кухни, координаты и ключи локальных изображений            |
+| `employees`   | Сотрудники, смены и даты                                              |
+| `tables`      | Номер, статус и время резервирования стола                            |
+| `tableOrders` | Позиции заказа и версия `revision`; ID документа совпадает с ID стола |
+
+Для новой учебной базы можно добавить демоданные. Запустите Vite и выполните **в консоли браузера на локальном сайте**:
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+const { seedDemoData } = await import('/src/dev/seed-demo-data.ts');
+await seedDemoData();
 ```
+
+Затем обновите страницу. Сидирование создаёт только отсутствующие документы; существующие заказы не перезаписывает. Запуск возможен только в development. Если документов уже достаточно, сидирование не требуется. Данные находятся в `src/dev` и не используются как подмена Firestore в интерфейсе.
+
+## Архитектура
+
+```text
+src/
+  app/                 # Router, providers, layouts, домашний экран
+  routes/              # Только объявления существующих маршрутов
+  features/
+    restaurants/
+    tables/
+    employees/
+      api/             # Чтение/запись Firestore
+      hooks/           # TanStack Query и логика интерфейса
+      pages/           # Композиция существующих экранов
+      components/      # Представление
+      lib/             # Преобразования, проверки, расчёты
+      types/           # Типы предметной области
+  components/          # Общие компоненты и используемые shadcn-компоненты
+  lib/                 # Firebase, имена коллекций, общие утилиты
+  dev/                 # Демоданные и явное сидирование
+```
+
+Файлы именуются в `kebab-case`; компоненты — в `PascalCase`; хуки — `useSomething`. Существующие `*.types.ts` обозначают типы предметной области. Общие функции не импортируются из соседней feature.
+
+Маршруты: `/`, `/restaurants`, `/staff/tables`, `/staff/tables/$tableId`, `/staff/employees`. Папки `pages` не создают новые маршруты.
+
+Поток данных: **компонент → hook → API → Firestore**. Данные из базы проверяются во время выполнения; TypeScript сам по себе не валидирует сетевой ответ. Локальное состояние формы отделено от серверного кэша.
+
+При изменении заказа API сверяет `revision` внутри транзакции. Устаревшая вкладка получает ошибку и обновляет кэш вместо перезаписи более свежего заказа. При закрытии заказа изменяются оба документа в одной транзакции. Денежные расчёты выполняются в центах.
+
+`src/routeTree.gen.ts` автоматически создаёт TanStack Router. Его `any` и `@ts-nocheck` принадлежат генератору; вручную файл не редактируется. В написанном вручную TypeScript явный `any` запрещён ESLint.
+
+## Проверки
+
+```bash
+npm run lint
+npm run test
+npm run build
+npm run format:check
+# Все проверки одной командой:
+npm run check
+```
+
+`npm run format` применяет форматирование, `npm run test:watch` запускает тесты в режиме наблюдения. В GitHub Actions добавлена такая же проверка качества.
+
+Тесты покрывают некорректные данные, расчёты сумм, пустой заказ, конфликт версий и транзакционное закрытие. В тестах операций Firestore подменяется; они не изменяют живую базу и не проверяют опубликованные Security Rules.
+
+Для проверки production-сборки:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Деплой на Vercel
+
+1. Опубликуйте изменения в GitHub и импортируйте репозиторий в Vercel.
+2. Выберите Vite; команда сборки — `npm run build`, каталог — `dist`.
+3. Добавьте переменные из `.env.example` в настройки окружения проекта Vercel.
+4. Выполните deploy. `vercel.json` содержит SPA rewrite для прямого открытия вложенных маршрутов.
+5. Проверьте обновление страницы по адресу `/staff/tables/table-3`, чтение и изменение Firestore, карту.
+6. Добавьте реальный URL в начало README.
+
+Карта использует Stadia Maps. Доступность тайлов на опубликованном домене нужно проверить отдельно; провайдер может требовать настройки домена/учётной записи.
+
+## Сдача
+
+Подробная сверка требований и оставшиеся пункты находятся в [docs/submission-checklist.md](docs/submission-checklist.md).
+
+Коммиты удобно делить по смыслу: `refactor: organize feature pages and shared utilities`, `fix: validate and synchronize table orders`, `docs: document setup and submission status`. Не объединяйте несвязанные изменения только ради количества коммитов.
+
+Результаты локального Lighthouse-аудита и условия проверки: [docs/lighthouse.md](docs/lighthouse.md). Четыре страницы проходят порог 90 во всех категориях; мобильная карта пока имеет Performance 83.
