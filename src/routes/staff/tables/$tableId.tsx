@@ -12,6 +12,7 @@ import { OrderItemRow } from "@/features/tables/components/order-item-row";
 import { OrderListHeader } from "@/features/tables/components/order-list-header";
 import { OrderTotal } from "@/features/tables/components/order-total";
 import { menuItems } from "@/features/tables/data/menu-items";
+import { menuCategoryOrder } from "@/features/tables/constants/menu-categories";
 import { useCompleteTableOrderMutation } from "@/features/tables/hooks/use-complete-table-order-mutation";
 import { useTableOrderQuery } from "@/features/tables/hooks/use-table-order-query";
 import { useTableQuery } from "@/features/tables/hooks/use-table-query";
@@ -24,13 +25,6 @@ import type {
 export const Route = createFileRoute("/staff/tables/$tableId")({
   component: TableDetailsPage,
 });
-
-const categoryOrder: MenuCategory[] = [
-  "Appetizer",
-  "Main Course",
-  "Drinks",
-  "Dessert",
-];
 
 const emptyOrderItems: OrderItem[] = [];
 
@@ -79,7 +73,7 @@ function TableDetailsPage() {
   const commentItem = items.find((item) => item.id === commentItemId) ?? null;
 
   const groupedItems = useMemo(() => {
-    return categoryOrder.map((category) => ({
+    return menuCategoryOrder.map((category) => ({
       category,
       items: items.filter((item) => item.category === category),
     }));
@@ -307,48 +301,44 @@ function TableDetailsPage() {
                   <OrderListHeader />
 
                   <div className="mt-6 flex flex-col gap-6">
-                    {groupedItems.map(
-                      ({ category, items: categoryItems }) => (
-                        <section className="relative" key={category}>
-                          <OrderCategoryTitle
-                            isUpdating={updateTableOrderMutation.isPending}
-                            onAddDishClick={handleOpenAddMenu}
-                            title={category}
+                    {groupedItems.map(({ category, items: categoryItems }) => (
+                      <section className="relative" key={category}>
+                        <OrderCategoryTitle
+                          isUpdating={updateTableOrderMutation.isPending}
+                          onAddDishClick={handleOpenAddMenu}
+                          title={category}
+                        />
+
+                        {addMenuCategory === category ? (
+                          <AddOrderItemMenu
+                            category={category}
+                            currentItems={items}
+                            onAddItem={handleAddItem}
+                            onClose={handleCloseAddMenu}
                           />
+                        ) : null}
 
-                          {addMenuCategory === category ? (
-                            <AddOrderItemMenu
-                              category={category}
-                              currentItems={items}
-                              onAddItem={handleAddItem}
-                              onClose={handleCloseAddMenu}
-                            />
-                          ) : null}
-
-                          {categoryItems.length > 0 ? (
-                            <div className="mt-[10px] flex flex-col gap-2">
-                              {categoryItems.map((item) => (
-                                <OrderItemRow
-                                  isUpdating={
-                                    updateTableOrderMutation.isPending
-                                  }
-                                  item={item}
-                                  key={item.id}
-                                  onCommentClick={handleOpenComment}
-                                  onDecrease={handleDecrease}
-                                  onIncrease={handleIncrease}
-                                  onRemove={handleRemove}
-                                />
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="mt-[10px] text-sm text-[#222222]/40">
-                              No dishes in this category.
-                            </p>
-                          )}
-                        </section>
-                      ),
-                    )}
+                        {categoryItems.length > 0 ? (
+                          <div className="mt-[10px] flex flex-col gap-2">
+                            {categoryItems.map((item) => (
+                              <OrderItemRow
+                                isUpdating={updateTableOrderMutation.isPending}
+                                item={item}
+                                key={item.id}
+                                onCommentClick={handleOpenComment}
+                                onDecrease={handleDecrease}
+                                onIncrease={handleIncrease}
+                                onRemove={handleRemove}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="mt-[10px] text-sm text-[#222222]/40">
+                            No dishes in this category.
+                          </p>
+                        )}
+                      </section>
+                    ))}
                   </div>
 
                   <OrderTotal
@@ -434,10 +424,7 @@ interface TableStatusMessageProps {
   title: string;
 }
 
-function TableStatusMessage({
-  description,
-  title,
-}: TableStatusMessageProps) {
+function TableStatusMessage({ description, title }: TableStatusMessageProps) {
   return (
     <section className="mt-6 rounded-[8px] border border-black/10 bg-white p-4">
       <h2 className="text-base font-semibold text-[#222222]">{title}</h2>
