@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getTables } from '@/features/tables/api/get-tables';
-
-export const tablesQueryKey = ['tables'] as const;
+import { tableQueryKeys } from '@/features/tables/lib/query-keys';
 
 export function useTablesQuery() {
   return useQuery({
-    queryKey: tablesQueryKey,
+    queryKey: tableQueryKeys.all,
     queryFn: getTables,
   });
 }
