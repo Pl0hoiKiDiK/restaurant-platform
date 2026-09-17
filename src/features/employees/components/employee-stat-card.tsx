@@ -1,6 +1,14 @@
+import { toast } from 'sonner';
+
 interface EmployeeStatCardProps {
   label: string;
   value: number;
+}
+
+function handleViewClick(label: string) {
+  toast.info(`${label} details are coming soon`, {
+    description: 'Detailed employee statistics are not implemented yet.',
+  });
 }
 
 export function EmployeeStatCard({
@@ -22,6 +30,7 @@ export function EmployeeStatCard({
 
         <button
           className="h-[35px] shrink-0 bg-white px-4 py-2 text-base font-normal leading-[19px] text-[#222222]"
+          onClick={() => handleViewClick(label)}
           type="button"
         >
           View

@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
+import { toast } from "sonner";
 
 import analyticsIcon from "@/assets/icons/analytics-icon.svg";
 import employessIcon from "@/assets/icons/employess-icon.svg";
@@ -14,19 +15,19 @@ import userIcon from "@/assets/icons/user-icon.svg";
 import vacationIcon from "@/assets/icons/vacation-icon.svg";
 
 interface ManagerNavigationItem {
-  label: string;
   icon: string;
+  label: string;
 }
 
 const managerNavigationItems: ManagerNavigationItem[] = [
-  { label: "Home", icon: homeIcon },
-  { label: "Shift", icon: shiftIcon },
-  { label: "Payroll", icon: payrollIcon },
-  { label: "Tasks", icon: tasksIcon },
-  { label: "Analytics", icon: analyticsIcon },
-  { label: "Employees", icon: employessIcon },
-  { label: "Vacation", icon: vacationIcon },
-  { label: "Sick days", icon: sickDaysIcon },
+  { icon: homeIcon, label: "Home" },
+  { icon: shiftIcon, label: "Shift" },
+  { icon: payrollIcon, label: "Payroll" },
+  { icon: tasksIcon, label: "Tasks" },
+  { icon: analyticsIcon, label: "Analytics" },
+  { icon: employessIcon, label: "Employees" },
+  { icon: vacationIcon, label: "Vacation" },
+  { icon: sickDaysIcon, label: "Sick days" },
 ];
 
 export function ManagerLayout({ children }: PropsWithChildren) {
@@ -35,6 +36,12 @@ export function ManagerLayout({ children }: PropsWithChildren) {
   });
 
   const isEmployeesPage = pathname === "/staff/employees";
+
+  function handleUnavailableSection(sectionName: string) {
+    toast.info(`${sectionName} is coming soon`, {
+      description: "This workspace section is not implemented yet.",
+    });
+  }
 
   return (
     <div className="min-h-screen bg-white text-[#222222] xl:flex">
@@ -54,7 +61,7 @@ export function ManagerLayout({ children }: PropsWithChildren) {
         <div className="my-6 h-px w-[212px] bg-black" />
 
         <nav className="flex w-[212px] flex-col gap-2">
-          {managerNavigationItems.map(({ label, icon }) => {
+          {managerNavigationItems.map(({ icon, label }) => {
             const isActive = label === "Employees" && isEmployeesPage;
 
             const itemClassName = [
@@ -84,7 +91,12 @@ export function ManagerLayout({ children }: PropsWithChildren) {
             }
 
             return (
-              <button className={itemClassName} key={label} type="button">
+              <button
+                className={itemClassName}
+                key={label}
+                onClick={() => handleUnavailableSection(label)}
+                type="button"
+              >
                 <img
                   alt=""
                   aria-hidden="true"
@@ -102,21 +114,46 @@ export function ManagerLayout({ children }: PropsWithChildren) {
       <div className="min-w-0 flex-1 px-6 py-6">
         <header className="flex h-10 items-center justify-end">
           <div className="flex items-center">
-            <img
-              alt="Notifications"
-              className="size-6"
-              src={notificationIcon}
-            />
+            <button
+              aria-label="Open notifications"
+              className="grid size-8 place-items-center rounded-[4px] transition-colors hover:bg-[#F4F4F4]"
+              onClick={() =>
+                toast.info("Notifications are coming soon", {
+                  description:
+                    "You will be able to view manager notifications here.",
+                })
+              }
+              type="button"
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                className="size-6"
+                src={notificationIcon}
+              />
+            </button>
 
-            <img
-              alt="User profile"
-              className="ml-[18px] size-6"
-              src={userIcon}
-            />
+            <button
+              aria-label="Open user profile"
+              className="ml-[10px] flex h-8 items-center rounded-[4px] px-1 transition-colors hover:bg-[#F4F4F4]"
+              onClick={() =>
+                toast.info("User profile is coming soon", {
+                  description: "Profile settings are not implemented yet.",
+                })
+              }
+              type="button"
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                className="size-6"
+                src={userIcon}
+              />
 
-            <span className="ml-2 text-base font-medium leading-6 text-[#222222]">
-              Dwayne Exum
-            </span>
+              <span className="ml-2 text-base font-medium leading-6 text-[#222222]">
+                Dwayne Exum
+              </span>
+            </button>
           </div>
         </header>
 

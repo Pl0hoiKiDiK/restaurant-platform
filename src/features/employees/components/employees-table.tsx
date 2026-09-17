@@ -1,7 +1,15 @@
-import type { Employee } from '@/features/employees/types/employee.types';
+import { toast } from "sonner";
+
+import type { Employee } from "@/features/employees/types/employee.types";
 
 interface EmployeesTableProps {
   employees: Employee[];
+}
+
+function handleAddBonus(employeeName: string) {
+  toast.info(`Bonus for ${employeeName} is coming soon`, {
+    description: "Employee bonus management is not implemented yet.",
+  });
 }
 
 export function EmployeesTable({ employees }: EmployeesTableProps) {
@@ -18,9 +26,7 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
           Employee
         </span>
 
-        <span className="text-sm font-bold text-[#222222]/40">
-          Shift
-        </span>
+        <span className="text-sm font-bold text-[#222222]/40">Shift</span>
 
         <span className="text-sm font-bold text-[#222222]/40">
           Employment date
@@ -30,18 +36,16 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
           Billing date
         </span>
 
-        <span className="text-sm font-bold text-[#222222]/40">
-          Bonus
-        </span>
+        <span className="text-sm font-bold text-[#222222]/40">Bonus</span>
       </div>
 
       <div className="mt-[10px] flex flex-col gap-2">
         {employees.map((employee, index) => (
           <article
             className={[
-              'grid h-[54px] grid-cols-[28px_1fr_70px_176px_176px_34px] items-center gap-4 px-2 py-[7px]',
-              index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]',
-            ].join(' ')}
+              "grid h-[54px] grid-cols-[28px_1fr_70px_176px_176px_34px] items-center gap-4 px-2 py-[7px]",
+              index % 2 === 0 ? "bg-white" : "bg-[#F9F9F9]",
+            ].join(" ")}
             key={employee.id}
           >
             <button
@@ -56,9 +60,9 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
                 style={{ backgroundColor: employee.avatarColor }}
               >
                 {employee.fullName
-                  .split(' ')
+                  .split(" ")
                   .map((namePart) => namePart.charAt(0))
-                  .join('')}
+                  .join("")}
               </div>
 
               <div className="min-w-0">
@@ -74,9 +78,9 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
 
             <span
               className={[
-                'grid size-[30px] place-items-center rounded-full text-sm font-bold text-white',
-                employee.shift === 'A' ? 'bg-[#FFB743]' : 'bg-[#9FC5FF]',
-              ].join(' ')}
+                "grid size-[30px] place-items-center rounded-full text-sm font-bold text-white",
+                employee.shift === "A" ? "bg-[#FFB743]" : "bg-[#9FC5FF]",
+              ].join(" ")}
             >
               {employee.shift}
             </span>
@@ -92,6 +96,7 @@ export function EmployeesTable({ employees }: EmployeesTableProps) {
             <button
               aria-label={`Add bonus for ${employee.fullName}`}
               className="grid size-[30px] place-items-center rounded-full bg-[#F0F0F0] text-lg leading-none text-[#353535]"
+              onClick={() => handleAddBonus(employee.fullName)}
               type="button"
             >
               +

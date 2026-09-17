@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
+import { toast } from "sonner";
 
 import notificationIcon from "@/assets/icons/notification-icon.svg";
 import orderButtonIcon from "@/assets/icons/order-button-icon.svg";
@@ -21,6 +22,12 @@ export function StaffLayout({ children }: PropsWithChildren) {
       ? "bg-white text-[#383838]"
       : "bg-[#393939] text-white hover:bg-[#4A4A4A]",
   ].join(" ");
+
+  function handleUnavailableSection(sectionName: string) {
+    toast.info(`${sectionName} is coming soon`, {
+      description: "This workspace section is not implemented yet.",
+    });
+  }
 
   return (
     <div className="min-h-screen bg-white text-[#222222] xl:flex">
@@ -53,6 +60,7 @@ export function StaffLayout({ children }: PropsWithChildren) {
 
           <button
             className="flex h-14 w-[212px] items-center gap-2 bg-[#393939] px-4 text-left font-medium text-white transition-colors hover:bg-[#4A4A4A]"
+            onClick={() => handleUnavailableSection("Orders")}
             type="button"
           >
             <img
@@ -67,6 +75,7 @@ export function StaffLayout({ children }: PropsWithChildren) {
 
           <button
             className="flex h-14 w-[212px] items-center gap-2 bg-[#393939] px-4 text-left font-medium text-white transition-colors hover:bg-[#4A4A4A]"
+            onClick={() => handleUnavailableSection("Statistics")}
             type="button"
           >
             <img
@@ -84,21 +93,46 @@ export function StaffLayout({ children }: PropsWithChildren) {
       <div className="min-w-0 flex-1 px-6 py-6">
         <header className="flex h-10 items-center justify-end">
           <div className="flex items-center">
-            <img
-              alt="Notifications"
-              className="size-6"
-              src={notificationIcon}
-            />
+            <button
+              aria-label="Open notifications"
+              className="grid size-8 place-items-center rounded-[4px] transition-colors hover:bg-[#F4F4F4]"
+              onClick={() =>
+                toast.info("Notifications are coming soon", {
+                  description:
+                    "You will be able to view staff notifications here.",
+                })
+              }
+              type="button"
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                className="size-6"
+                src={notificationIcon}
+              />
+            </button>
 
-            <img
-              alt="User profile"
-              className="ml-[18px] size-6"
-              src={userIcon}
-            />
+            <button
+              aria-label="Open user profile"
+              className="ml-[10px] flex h-8 items-center rounded-[4px] px-1 transition-colors hover:bg-[#F4F4F4]"
+              onClick={() =>
+                toast.info("User profile is coming soon", {
+                  description: "Profile settings are not implemented yet.",
+                })
+              }
+              type="button"
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                className="size-6"
+                src={userIcon}
+              />
 
-            <span className="ml-2 text-base font-medium leading-6 text-[#222222]">
-              Okechukwu Andrey
-            </span>
+              <span className="ml-2 text-base font-medium leading-6 text-[#222222]">
+                Okechukwu Andrey
+              </span>
+            </button>
           </div>
         </header>
 

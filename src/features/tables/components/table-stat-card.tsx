@@ -1,6 +1,14 @@
+import { toast } from 'sonner';
+
 interface TableStatCardProps {
   label: string;
   value: number;
+}
+
+function handleShowClick(label: string) {
+  toast.info(`${label} tables view is coming soon`, {
+    description: 'Filtering the floor plan by table status is not implemented yet.',
+  });
 }
 
 export function TableStatCard({ label, value }: TableStatCardProps) {
@@ -19,6 +27,7 @@ export function TableStatCard({ label, value }: TableStatCardProps) {
 
         <button
           className="h-[35px] shrink-0 bg-white px-4 py-2 text-base font-normal leading-[19px] text-[#222222]"
+          onClick={() => handleShowClick(label)}
           type="button"
         >
           Show
