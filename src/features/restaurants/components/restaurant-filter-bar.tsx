@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import crossIcon from "@/assets/icons/cross-icon.svg";
 import filterBlackIcon from "@/assets/icons/filter-black-icon.svg";
 import filterRedIcon from "@/assets/icons/filter-red-icon.svg";
+import { useClickOutside } from "@/hooks/use-click-outside";
 import type { RestaurantCuisine } from "@/features/restaurants/types/restaurant.types";
 
 const availableCuisines: RestaurantCuisine[] = [
@@ -28,33 +29,9 @@ export function RestaurantFilterBar({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
+  useClickOutside(filterRef, () => setIsMenuOpen(false));
+
   const hasActiveFilters = activeCuisines.length > 0;
-
-  useEffect(() => {
-    function handlePointerDown(event: MouseEvent) {
-      if (
-        filterRef.current !== null &&
-        event.target instanceof Node &&
-        !filterRef.current.contains(event.target)
-      ) {
-        setIsMenuOpen(false);
-      }
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setIsMenuOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   function handleFilterButtonClick() {
     setIsMenuOpen((currentValue) => !currentValue);
