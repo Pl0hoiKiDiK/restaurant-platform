@@ -20,14 +20,12 @@ const tableStatusStyles = {
   },
   reserved: {
     backgroundClassName: 'bg-[#FFE8E8]',
-    badgeClassName: 'bg-[#FF5858] text-[#FFE8E8]',
+    badgeClassName: 'bg-[#FF5858] text-[#222222]',
     label: 'Res',
   },
 } as const;
 
-export function RestaurantTableCard({
-  table,
-}: RestaurantTableCardProps) {
+export function RestaurantTableCard({ table }: RestaurantTableCardProps) {
   const statusStyle = tableStatusStyles[table.status];
 
   return (

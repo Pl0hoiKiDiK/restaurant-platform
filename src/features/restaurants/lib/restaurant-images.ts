@@ -1,19 +1,19 @@
-import mala1Image from '@/assets/restaurants/mala-1.svg';
-import mala2Image from '@/assets/restaurants/mala-2.svg';
-import mala3Image from '@/assets/restaurants/mala-3.svg';
-import mala4Image from '@/assets/restaurants/mala-4.svg';
-import mikado1Image from '@/assets/restaurants/mikado-1.svg';
-import mikado2Image from '@/assets/restaurants/mikado-2.svg';
-import mikado3Image from '@/assets/restaurants/mikado-3.svg';
-import mikado4Image from '@/assets/restaurants/mikado-4.svg';
-import nana1Image from '@/assets/restaurants/nana-1.svg';
-import nana2Image from '@/assets/restaurants/nana-2.svg';
-import nana3Image from '@/assets/restaurants/nana-3.svg';
-import nana4Image from '@/assets/restaurants/nana-4.svg';
-import thai1Image from '@/assets/restaurants/thai-1.svg';
-import thai2Image from '@/assets/restaurants/thai-2.svg';
-import thai3Image from '@/assets/restaurants/thai-3.svg';
-import thai4Image from '@/assets/restaurants/thai-4.svg';
+import mala1Image from '@/assets/restaurants/mala-1.webp';
+import mala2Image from '@/assets/restaurants/mala-2.webp';
+import mala3Image from '@/assets/restaurants/mala-3.webp';
+import mala4Image from '@/assets/restaurants/mala-4.webp';
+import mikado1Image from '@/assets/restaurants/mikado-1.webp';
+import mikado2Image from '@/assets/restaurants/mikado-2.webp';
+import mikado3Image from '@/assets/restaurants/mikado-3.webp';
+import mikado4Image from '@/assets/restaurants/mikado-4.webp';
+import nana1Image from '@/assets/restaurants/nana-1.webp';
+import nana2Image from '@/assets/restaurants/nana-2.webp';
+import nana3Image from '@/assets/restaurants/nana-3.webp';
+import nana4Image from '@/assets/restaurants/nana-4.webp';
+import thai1Image from '@/assets/restaurants/thai-1.webp';
+import thai2Image from '@/assets/restaurants/thai-2.webp';
+import thai3Image from '@/assets/restaurants/thai-3.webp';
+import thai4Image from '@/assets/restaurants/thai-4.webp';
 
 const restaurantImages: Record<string, string> = {
   'mala-1': mala1Image,

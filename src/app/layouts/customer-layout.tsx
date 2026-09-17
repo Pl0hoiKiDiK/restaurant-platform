@@ -1,15 +1,15 @@
-import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import type { ChangeEvent, PropsWithChildren } from "react";
-import { toast } from "sonner";
+import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import type { ChangeEvent, PropsWithChildren } from 'react';
+import { toast } from 'sonner';
 
-import bestRestaurantsIcon from "@/assets/icons/best-restaurants-icon.svg";
-import cartIcon from "@/assets/icons/cart-icon.svg";
-import crossIcon from "@/assets/icons/cross-icon.svg";
-import menuIcon from "@/assets/icons/menu-icon.svg";
-import searchIcon from "@/assets/icons/search-icon.svg";
+import bestRestaurantsIcon from '@/assets/icons/best-restaurants-icon.svg';
+import cartIcon from '@/assets/icons/cart-icon.svg';
+import crossIcon from '@/assets/icons/cross-icon.svg';
+import menuIcon from '@/assets/icons/menu-icon.svg';
+import searchIcon from '@/assets/icons/search-icon.svg';
 
-type OrderMode = "delivery" | "pickup";
+type OrderMode = 'delivery' | 'pickup';
 
 interface CustomerLayoutProps extends PropsWithChildren {
   searchQuery?: string;
@@ -18,10 +18,10 @@ interface CustomerLayoutProps extends PropsWithChildren {
 
 export function CustomerLayout({
   children,
-  searchQuery = "",
+  searchQuery = '',
   onSearchQueryChange,
 }: CustomerLayoutProps) {
-  const [orderMode, setOrderMode] = useState<OrderMode>("delivery");
+  const [orderMode, setOrderMode] = useState<OrderMode>('delivery');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
@@ -29,16 +29,16 @@ export function CustomerLayout({
   }
 
   function handleCloseSearch() {
-    onSearchQueryChange?.("");
+    onSearchQueryChange?.('');
     setIsSearchOpen(false);
   }
 
   return (
-    <div className="min-h-screen overflow-hidden bg-white text-[#222222]">
-      <header className="relative z-10 flex h-[62px] items-center bg-white px-6 shadow-[0_3px_8px_rgba(0,0,0,0.10)]">
+    <div className="flex h-dvh min-h-[420px] flex-col overflow-hidden bg-white text-[#222222]">
+      <header className="relative z-10 flex shrink-0 min-h-[62px] flex-wrap items-center gap-y-3 py-3 lg:h-[62px] lg:flex-nowrap lg:py-0 bg-white px-6 shadow-[0_3px_8px_rgba(0,0,0,0.10)]">
         <Link
           aria-label="Go to workspace selection"
-          className="flex w-[300px] shrink-0 items-center"
+          className="flex w-full shrink-0 items-center sm:w-[300px]"
           to="/"
         >
           <img
@@ -50,28 +50,28 @@ export function CustomerLayout({
 
         <div className="flex h-8 w-[156px] overflow-hidden rounded-[4px] border border-black/10">
           <button
-            aria-pressed={orderMode === "delivery"}
+            aria-pressed={orderMode === 'delivery'}
             className={[
-              "flex h-full w-[78px] items-center justify-center text-[10px] font-medium leading-3 transition-colors",
-              orderMode === "delivery"
-                ? "bg-[#F4F4F4] text-[#F34336]"
-                : "bg-white text-[#222222]",
-            ].join(" ")}
-            onClick={() => setOrderMode("delivery")}
+              'flex h-full w-[78px] items-center justify-center text-[10px] font-medium leading-3 transition-colors',
+              orderMode === 'delivery'
+                ? 'bg-[#F4F4F4] text-[#C93228]'
+                : 'bg-white text-[#222222]',
+            ].join(' ')}
+            onClick={() => setOrderMode('delivery')}
             type="button"
           >
             DELIVERY
           </button>
 
           <button
-            aria-pressed={orderMode === "pickup"}
+            aria-pressed={orderMode === 'pickup'}
             className={[
-              "flex h-full w-[78px] items-center justify-center text-[10px] font-medium leading-3 transition-colors",
-              orderMode === "pickup"
-                ? "bg-[#F4F4F4] text-[#F34336]"
-                : "bg-white text-[#222222]",
-            ].join(" ")}
-            onClick={() => setOrderMode("pickup")}
+              'flex h-full w-[78px] items-center justify-center text-[10px] font-medium leading-3 transition-colors',
+              orderMode === 'pickup'
+                ? 'bg-[#F4F4F4] text-[#C93228]'
+                : 'bg-white text-[#222222]',
+            ].join(' ')}
+            onClick={() => setOrderMode('pickup')}
             type="button"
           >
             PICKUP
@@ -80,7 +80,7 @@ export function CustomerLayout({
 
         <div className="ml-auto flex items-center gap-4">
           {isSearchOpen ? (
-            <div className="flex h-9 w-[260px] items-center rounded-[4px] border border-black/10 bg-white px-2">
+            <div className="flex h-9 w-[160px] items-center sm:w-[260px] rounded-[4px] border border-black/10 bg-white px-2">
               <img
                 alt=""
                 aria-hidden="true"
@@ -104,12 +104,7 @@ export function CustomerLayout({
                 onClick={handleCloseSearch}
                 type="button"
               >
-                <img
-                  alt=""
-                  aria-hidden="true"
-                  className="size-[10px]"
-                  src={crossIcon}
-                />
+                <img alt="" aria-hidden="true" className="size-[10px]" src={crossIcon} />
               </button>
             </div>
           ) : (
@@ -119,12 +114,7 @@ export function CustomerLayout({
               onClick={() => setIsSearchOpen(true)}
               type="button"
             >
-              <img
-                alt=""
-                aria-hidden="true"
-                className="size-9"
-                src={searchIcon}
-              />
+              <img alt="" aria-hidden="true" className="size-9" src={searchIcon} />
             </button>
           )}
 
@@ -132,8 +122,8 @@ export function CustomerLayout({
             aria-label="Open cart"
             className="grid size-9 place-items-center"
             onClick={() =>
-              toast.info("Cart is coming soon", {
-                description: "You will be able to review selected dishes here.",
+              toast.info('Cart is coming soon', {
+                description: 'You will be able to review selected dishes here.',
               })
             }
             type="button"
@@ -145,8 +135,8 @@ export function CustomerLayout({
             aria-label="Open menu"
             className="grid size-6 place-items-center"
             onClick={() =>
-              toast.info("Menu is coming soon", {
-                description: "More customer options will be available soon.",
+              toast.info('Menu is coming soon', {
+                description: 'More customer options will be available soon.',
               })
             }
             type="button"

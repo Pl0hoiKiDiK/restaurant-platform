@@ -1,8 +1,4 @@
-export type MenuCategory =
-  | 'Appetizer'
-  | 'Main Course'
-  | 'Drinks'
-  | 'Dessert';
+export type MenuCategory = 'Appetizer' | 'Main Course' | 'Drinks' | 'Dessert';
 
 export interface MenuItem {
   id: string;
@@ -20,4 +16,5 @@ export interface TableOrder {
   id: string;
   tableId: string;
   items: OrderItem[];
+  revision: number;
 }

@@ -1,23 +1,12 @@
-import { collection, getDocs } from 'firebase/firestore';
-
-import { firestoreCollections } from '@/features/tables/lib/firestore-collections';
-import {
-  parseTable,
-  type FirestoreTableData,
-} from '@/features/tables/lib/parse-table';
+import { collection, getDocs } from 'firebase/firestore/lite';
+import { parseTable } from '@/features/tables/lib/parse-table';
 import type { RestaurantTable } from '@/features/tables/types/table.types';
 import { db } from '@/lib/firebase';
+import { firestoreCollections } from '@/lib/firestore-collections';
 
 export async function getTables(): Promise<RestaurantTable[]> {
-  const tablesSnapshot = await getDocs(
-    collection(db, firestoreCollections.tables),
-  );
-
-  return tablesSnapshot.docs
-    .map((tableDocument) => {
-      const data = tableDocument.data() as FirestoreTableData;
-
-      return parseTable(tableDocument.id, data);
-    })
-    .sort((firstTable, secondTable) => firstTable.number - secondTable.number);
+  const snapshot = await getDocs(collection(db, firestoreCollections.tables));
+  return snapshot.docs
+    .map((document) => parseTable(document.id, document.data()))
+    .sort((first, second) => first.number - second.number);
 }

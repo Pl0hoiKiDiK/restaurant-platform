@@ -26,7 +26,7 @@ export function RestaurantsSidebar({
   onClearFilters,
 }: RestaurantsSidebarProps) {
   return (
-    <aside className="flex h-full w-[300px] shrink-0 flex-col bg-[#FAFAFA] p-[30px]">
+    <aside className="restaurant-list-panel flex min-h-0 flex-col bg-[#FAFAFA]">
       <RestaurantFilterBar
         activeCuisines={activeCuisines}
         onClearFilters={onClearFilters}
@@ -34,19 +34,17 @@ export function RestaurantsSidebar({
         onCuisineToggle={onCuisineToggle}
       />
 
-      <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-3">
+      <div className="mt-3 min-h-0 flex-1 overflow-y-auto pr-1 sm:mt-4 sm:pr-3">
         {restaurants.length === 0 ? (
           <div className="rounded-[8px] border border-dashed border-black/10 bg-white p-4 text-center">
-            <p className="text-sm font-medium text-[#222222]">
-              No restaurants found
-            </p>
+            <p className="text-sm font-medium text-[#222222]">No restaurants found</p>
 
             <p className="mt-1 text-xs text-[#222222]/50">
               Try another search or remove filters.
             </p>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2 sm:gap-4">
             {restaurants.map((restaurant) => (
               <RestaurantCard
                 isSelected={restaurant.id === selectedRestaurantId}

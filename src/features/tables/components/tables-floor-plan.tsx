@@ -1,8 +1,8 @@
-import type { RestaurantTable } from "@/features/tables/types/table.types";
+import type { RestaurantTable } from '@/features/tables/types/table.types';
 
-import { tablePositions } from "@/features/tables/data/table-positions";
+import { tablePositions } from '@/features/tables/data/table-positions';
 
-import { RestaurantTableCard } from "./restaurant-table-card";
+import { RestaurantTableCard } from './restaurant-table-card';
 
 interface TablesFloorPlanProps {
   tables: RestaurantTable[];

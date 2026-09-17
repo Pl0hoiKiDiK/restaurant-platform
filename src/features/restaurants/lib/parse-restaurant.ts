@@ -1,3 +1,4 @@
+import { isRecord } from '@/lib/validation';
 import type {
   Restaurant,
   RestaurantCoordinates,
@@ -25,7 +26,11 @@ function parseCoordinates(value: unknown): RestaurantCoordinates {
     !('latitude' in value) ||
     !('longitude' in value) ||
     typeof value.latitude !== 'number' ||
-    typeof value.longitude !== 'number'
+    typeof value.longitude !== 'number' ||
+    !Number.isFinite(value.latitude) ||
+    Math.abs(value.latitude) > 90 ||
+    !Number.isFinite(value.longitude) ||
+    Math.abs(value.longitude) > 180
   ) {
     throw new Error('Restaurant has invalid coordinates.');
   }
@@ -60,10 +65,9 @@ function parseImageKeys(value: unknown): RestaurantImageKeys {
   return [value[0], value[1], value[2], value[3]];
 }
 
-export function parseRestaurant(
-  restaurantId: string,
-  data: Record<string, unknown>,
-): Restaurant {
+export function parseRestaurant(restaurantId: string, data: unknown): Restaurant {
+  if (!isRecord(data)) throw new Error('Restaurant has invalid data.');
+
   const {
     city,
     coordinates,

@@ -1,16 +1,16 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
-import crossIcon from "@/assets/icons/cross-icon.svg";
-import filterBlackIcon from "@/assets/icons/filter-black-icon.svg";
-import filterRedIcon from "@/assets/icons/filter-red-icon.svg";
-import { useClickOutside } from "@/hooks/use-click-outside";
-import type { RestaurantCuisine } from "@/features/restaurants/types/restaurant.types";
+import crossIcon from '@/assets/icons/cross-icon.svg';
+import filterBlackIcon from '@/assets/icons/filter-black-icon.svg';
+import filterRedIcon from '@/assets/icons/filter-red-icon.svg';
+import { useClickOutside } from '@/hooks/use-click-outside';
+import type { RestaurantCuisine } from '@/features/restaurants/types/restaurant.types';
 
 const availableCuisines: RestaurantCuisine[] = [
-  "Asian",
-  "Thai",
-  "Asian Fusion",
-  "Chinese",
+  'Asian',
+  'Thai',
+  'Asian Fusion',
+  'Chinese',
 ];
 
 interface RestaurantFilterBarProps {
@@ -67,10 +67,10 @@ export function RestaurantFilterBar({
         </button>
 
         {hasActiveFilters ? (
-          <div className="ml-3 flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="ml-1 sm:ml-3 flex min-w-0 flex-1 flex-wrap items-center gap-x-1 sm:gap-x-3 gap-y-1">
             {activeCuisines.map((cuisine) => (
               <div className="flex items-center gap-2" key={cuisine}>
-                <span className="text-sm font-medium leading-5 text-[#222222]">
+                <span className="text-[10px] sm:text-sm font-medium leading-5 text-[#222222]">
                   {cuisine}
                 </span>
 
@@ -124,9 +124,7 @@ export function RestaurantFilterBar({
                     type="checkbox"
                   />
 
-                  <span className="text-sm font-medium text-[#222222]">
-                    {cuisine}
-                  </span>
+                  <span className="text-sm font-medium text-[#222222]">{cuisine}</span>
                 </label>
               );
             })}
@@ -134,7 +132,7 @@ export function RestaurantFilterBar({
 
           {hasActiveFilters ? (
             <button
-              className="mt-2 text-xs font-medium text-[#F34336] hover:underline"
+              className="mt-2 text-xs font-medium text-[#C93228] hover:underline"
               onClick={handleClearFilters}
               type="button"
             >

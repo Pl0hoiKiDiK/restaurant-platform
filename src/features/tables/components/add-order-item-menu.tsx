@@ -1,25 +1,21 @@
+import { formatPrice } from '@/features/tables/lib/format-price';
 import { useRef } from 'react';
 
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { menuItems } from '@/features/tables/data/menu-items';
-import type {
-  MenuCategory,
-  OrderItem,
-} from '@/features/tables/types/order.types';
+import type { MenuCategory, OrderItem } from '@/features/tables/types/order.types';
 
 interface AddOrderItemMenuProps {
   category: MenuCategory;
+  isUpdating: boolean;
   currentItems: OrderItem[];
   onAddItem: (itemId: string) => void;
   onClose: () => void;
 }
 
-function formatPrice(price: number) {
-  return `$${price.toFixed(2)}`;
-}
-
 export function AddOrderItemMenu({
   category,
+  isUpdating,
   currentItems,
   onAddItem,
   onClose,
@@ -52,13 +48,12 @@ export function AddOrderItemMenu({
 
       <div className="flex flex-col">
         {categoryItems.map((menuItem) => {
-          const isAlreadyInOrder = currentItems.some(
-            (item) => item.id === menuItem.id,
-          );
+          const isAlreadyInOrder = currentItems.some((item) => item.id === menuItem.id);
 
           return (
             <button
               className="flex items-center justify-between gap-3 rounded-[4px] px-2 py-2 text-left transition-colors hover:bg-[#F4F4F4]"
+              disabled={isUpdating}
               key={menuItem.id}
               onClick={() => onAddItem(menuItem.id)}
               type="button"

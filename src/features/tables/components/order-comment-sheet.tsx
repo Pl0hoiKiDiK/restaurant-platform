@@ -43,9 +43,7 @@ export function OrderCommentSheet({
           <SheetTitle>Dish comment</SheetTitle>
 
           <SheetDescription>
-            {item === null
-              ? 'Add a note for this dish.'
-              : `Add a note for ${item.name}.`}
+            {item === null ? 'Add a note for this dish.' : `Add a note for ${item.name}.`}
           </SheetDescription>
         </SheetHeader>
 
@@ -63,12 +61,7 @@ export function OrderCommentSheet({
   );
 }
 
-function CommentForm({
-  initialComment,
-  isUpdating,
-  onClose,
-  onSave,
-}: CommentFormProps) {
+function CommentForm({ initialComment, isUpdating, onClose, onSave }: CommentFormProps) {
   const [comment, setComment] = useState(initialComment);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -78,13 +71,9 @@ function CommentForm({
   }
 
   return (
-    <form
-      className="mt-6 flex flex-col gap-4 px-6"
-      onSubmit={handleSubmit}
-    >
+    <form className="mt-6 flex flex-col gap-4 px-6" onSubmit={handleSubmit}>
       <label className="flex flex-col gap-2 text-sm font-medium text-[#222222]">
         Comment
-
         <textarea
           className="min-h-28 resize-y rounded-[4px] border border-black/15 bg-white px-3 py-2 text-sm font-normal outline-none placeholder:text-[#222222]/40 focus:border-[#222222]"
           disabled={isUpdating}
@@ -95,17 +84,10 @@ function CommentForm({
         />
       </label>
 
-      <p className="text-right text-xs text-[#222222]/40">
-        {comment.length}/160
-      </p>
+      <p className="text-right text-xs text-[#222222]/40">{comment.length}/160</p>
 
       <div className="flex justify-end gap-2">
-        <Button
-          disabled={isUpdating}
-          onClick={onClose}
-          type="button"
-          variant="outline"
-        >
+        <Button disabled={isUpdating} onClick={onClose} type="button" variant="outline">
           Cancel
         </Button>
 

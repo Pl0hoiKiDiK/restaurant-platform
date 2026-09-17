@@ -17,12 +17,7 @@ export function EmployeeToolbar() {
         onClick={() => showComingSoon('Employee filters')}
         type="button"
       >
-        <img
-          alt=""
-          aria-hidden="true"
-          className="size-6"
-          src={filtersIcon}
-        />
+        <img alt="" aria-hidden="true" className="size-6" src={filtersIcon} />
 
         <span>Filters</span>
       </button>
@@ -33,12 +28,7 @@ export function EmployeeToolbar() {
         onClick={() => showComingSoon('Employee search')}
         type="button"
       >
-        <img
-          alt=""
-          aria-hidden="true"
-          className="size-9"
-          src={searchIcon}
-        />
+        <img alt="" aria-hidden="true" className="size-9" src={searchIcon} />
       </button>
     </div>
   );

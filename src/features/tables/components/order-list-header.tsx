@@ -7,17 +7,11 @@ export function OrderListHeader() {
         type="button"
       />
 
-      <span className="ml-3 text-sm font-bold text-[#222222]/40">
-        Dish
-      </span>
+      <span className="ml-3 text-sm font-bold text-[#222222]/40">Dish</span>
 
-      <span className="text-sm font-bold text-[#222222]/40">
-        Price
-      </span>
+      <span className="text-sm font-bold text-[#222222]/40">Price</span>
 
-      <span className="text-sm font-bold text-[#222222]/40">
-        Amount
-      </span>
+      <span className="text-sm font-bold text-[#222222]/40">Amount</span>
 
       <span />
 

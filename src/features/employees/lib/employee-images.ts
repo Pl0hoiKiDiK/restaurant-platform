@@ -1,9 +1,9 @@
-import ireneAvatar from '@/assets/employees/irene.png';
-import janaAvatar from '@/assets/employees/jana.png';
-import larryAvatar from '@/assets/employees/larry.png';
-import minaAvatar from '@/assets/employees/mina.png';
-import nealAvatar from '@/assets/employees/neal.png';
-import peteAvatar from '@/assets/employees/pete.png';
+import ireneAvatar from '@/assets/employees/irene.webp';
+import janaAvatar from '@/assets/employees/jana.webp';
+import larryAvatar from '@/assets/employees/larry.webp';
+import minaAvatar from '@/assets/employees/mina.webp';
+import nealAvatar from '@/assets/employees/neal.webp';
+import peteAvatar from '@/assets/employees/pete.webp';
 
 const employeeImages: Record<string, string> = {
   irene: ireneAvatar,

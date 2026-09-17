@@ -1,7 +1,7 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore/lite';
 
 import { parseRestaurant } from '@/features/restaurants/lib/parse-restaurant';
-import { firestoreCollections } from '@/features/tables/lib/firestore-collections';
+import { firestoreCollections } from '@/lib/firestore-collections';
 import type { Restaurant } from '@/features/restaurants/types/restaurant.types';
 import { db } from '@/lib/firebase';
 
@@ -12,10 +12,7 @@ export async function getRestaurants(): Promise<Restaurant[]> {
 
   return restaurantsSnapshot.docs
     .map((restaurantDocument) =>
-      parseRestaurant(
-        restaurantDocument.id,
-        restaurantDocument.data() as Record<string, unknown>,
-      ),
+      parseRestaurant(restaurantDocument.id, restaurantDocument.data()),
     )
     .sort((firstRestaurant, secondRestaurant) =>
       firstRestaurant.name.localeCompare(secondRestaurant.name),

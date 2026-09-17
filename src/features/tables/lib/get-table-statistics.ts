@@ -9,9 +9,7 @@ const emptyTableStatistics: TableStatistics = {
   reserved: 0,
 };
 
-export function getTableStatistics(
-  tables: RestaurantTable[],
-): TableStatistics {
+export function getTableStatistics(tables: RestaurantTable[]): TableStatistics {
   return tables.reduce<TableStatistics>(
     (statistics, table) => {
       statistics[table.status] += 1;

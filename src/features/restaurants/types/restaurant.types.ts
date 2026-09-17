@@ -1,17 +1,11 @@
-export type RestaurantCuisine =
-  | 'Asian'
-  | 'Thai'
-  | 'Asian Fusion'
-  | 'Chinese';
+export type RestaurantCuisine = 'Asian' | 'Thai' | 'Asian Fusion' | 'Chinese';
 
 export interface RestaurantCoordinates {
   latitude: number;
   longitude: number;
 }
 
-export type RestaurantImageKeys =
-  | [string, string, string, string]
-  | null;
+export type RestaurantImageKeys = [string, string, string, string] | null;
 
 export interface Restaurant {
   id: string;

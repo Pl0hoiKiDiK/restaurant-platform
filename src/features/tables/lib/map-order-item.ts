@@ -1,9 +1,7 @@
-import type {
-  MenuCategory,
-  OrderItem,
-} from '@/features/tables/types/order.types';
+import type { MenuCategory, OrderItem } from '@/features/tables/types/order.types';
+import { isNonEmptyString, isNonNegativeNumber, isRecord } from '@/lib/validation';
 
-export interface FirestoreOrderItem {
+interface FirestoreOrderItem {
   id: string;
   name: string;
   category: MenuCategory;
@@ -21,41 +19,34 @@ function isMenuCategory(value: unknown): value is MenuCategory {
   );
 }
 
-export function parseOrderItem(
-  orderId: string,
-  item: FirestoreOrderItem,
-): OrderItem {
+export function parseOrderItem(orderId: string, item: unknown): OrderItem {
   if (
-    typeof item.id !== 'string' ||
-    typeof item.name !== 'string' ||
+    !isRecord(item) ||
+    !isNonEmptyString(item.id) ||
+    !isNonEmptyString(item.name) ||
     !isMenuCategory(item.category) ||
-    typeof item.price !== 'number' ||
-    item.price < 0 ||
-    !Number.isInteger(item.quantity) ||
-    item.quantity < 1
+    !isNonNegativeNumber(item.price) ||
+    typeof item.quantity !== 'number' ||
+    !Number.isSafeInteger(item.quantity) ||
+    item.quantity < 1 ||
+    (item.comment != null &&
+      (typeof item.comment !== 'string' || item.comment.length > 160))
   ) {
-    throw new Error(`Order "${orderId}" contains an invalid item.`);
+    throw new Error('Order "' + orderId + '" contains an invalid item.');
   }
-
   return {
     id: item.id,
     name: item.name,
     category: item.category,
     price: item.price,
     quantity: item.quantity,
-    comment: item.comment ?? undefined,
+    comment: typeof item.comment === 'string' ? item.comment : undefined,
   };
 }
 
-export function toFirestoreOrderItems(
-  items: OrderItem[],
-): FirestoreOrderItem[] {
+export function toFirestoreOrderItems(items: OrderItem[]): FirestoreOrderItem[] {
   return items.map((item) => ({
-    id: item.id,
-    name: item.name,
-    category: item.category,
-    price: item.price,
-    quantity: item.quantity,
+    ...parseOrderItem('draft', item),
     comment: item.comment ?? null,
   }));
 }

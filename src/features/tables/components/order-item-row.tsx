@@ -1,7 +1,8 @@
-import commentFullIcon from "@/assets/icons/comment-full-icon.svg";
-import commentIcon from "@/assets/icons/comment-icon.svg";
-import deleteIcon from "@/assets/icons/delete-icon.svg";
-import type { OrderItem } from "@/features/tables/types/order.types";
+import { formatPrice } from '@/features/tables/lib/format-price';
+import commentFullIcon from '@/assets/icons/comment-full-icon.svg';
+import commentIcon from '@/assets/icons/comment-icon.svg';
+import deleteIcon from '@/assets/icons/delete-icon.svg';
+import type { OrderItem } from '@/features/tables/types/order.types';
 
 interface OrderItemRowProps {
   item: OrderItem;
@@ -10,10 +11,6 @@ interface OrderItemRowProps {
   onIncrease: (itemId: string) => void;
   onRemove: (itemId: string) => void;
   onCommentClick: (itemId: string) => void;
-}
-
-function formatPrice(value: number) {
-  return `$${value.toFixed(2)}`;
 }
 
 export function OrderItemRow({
@@ -79,7 +76,7 @@ export function OrderItemRow({
       </div>
 
       <span className="text-lg font-medium leading-[22px] text-[#222222]">
-        {item.quantity > 1 ? formatPrice(itemTotal) : ""}
+        {item.quantity > 1 ? formatPrice(itemTotal) : ''}
       </span>
 
       <div className="flex h-[34px] w-[82px] items-center gap-6">
@@ -90,12 +87,7 @@ export function OrderItemRow({
           onClick={() => onCommentClick(item.id)}
           type="button"
         >
-          <img
-            alt=""
-            aria-hidden="true"
-            className="size-6"
-            src={commentImage}
-          />
+          <img alt="" aria-hidden="true" className="size-6" src={commentImage} />
         </button>
 
         <button
@@ -105,12 +97,7 @@ export function OrderItemRow({
           onClick={() => onRemove(item.id)}
           type="button"
         >
-          <img
-            alt=""
-            aria-hidden="true"
-            className="size-[34px]"
-            src={deleteIcon}
-          />
+          <img alt="" aria-hidden="true" className="size-[34px]" src={deleteIcon} />
         </button>
       </div>
     </article>

@@ -41,9 +41,7 @@ export function OrderDiscountSheet({
         <SheetHeader>
           <SheetTitle>Discount</SheetTitle>
 
-          <SheetDescription>
-            Choose a discount for this order.
-          </SheetDescription>
+          <SheetDescription>Choose a discount for this order.</SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 flex flex-col gap-2 px-6">
