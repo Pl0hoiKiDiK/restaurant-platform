@@ -8,4 +8,5 @@ export interface Employee {
   employmentDate: string;
   billingDate: string;
   avatarColor: string;
+  avatarKey: string;
 }

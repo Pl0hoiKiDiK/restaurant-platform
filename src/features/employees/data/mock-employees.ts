@@ -9,6 +9,7 @@ export const mockEmployees: Employee[] = [
     employmentDate: 'Jan 5, 2021',
     billingDate: 'Jan 5, 2023',
     avatarColor: '#E6B8A2',
+    avatarKey: 'mina',
   },
   {
     id: 'employee-pete',
@@ -18,6 +19,7 @@ export const mockEmployees: Employee[] = [
     employmentDate: 'Feb 5, 2021',
     billingDate: 'Jan 11, 2023',
     avatarColor: '#8D6654',
+    avatarKey: 'pete',
   },
   {
     id: 'employee-irene',
@@ -27,6 +29,7 @@ export const mockEmployees: Employee[] = [
     employmentDate: 'Dec 22, 2020',
     billingDate: 'Jan 11, 2023',
     avatarColor: '#9DB1A9',
+    avatarKey: 'irene',
   },
   {
     id: 'employee-neal',
@@ -36,6 +39,7 @@ export const mockEmployees: Employee[] = [
     employmentDate: 'Mar 1, 2021',
     billingDate: 'Jan 11, 2023',
     avatarColor: '#887364',
+    avatarKey: 'neal',
   },
   {
     id: 'employee-larry',
@@ -45,6 +49,7 @@ export const mockEmployees: Employee[] = [
     employmentDate: 'Dec 22, 2020',
     billingDate: 'Jan 5, 2023',
     avatarColor: '#B0A89C',
+    avatarKey: 'larry',
   },
   {
     id: 'employee-jana',
@@ -54,6 +59,7 @@ export const mockEmployees: Employee[] = [
     employmentDate: 'Jan 5, 2021',
     billingDate: 'Jan 5, 2023',
     avatarColor: '#B67C5F',
+    avatarKey: 'jana',
   },
 ];
 
