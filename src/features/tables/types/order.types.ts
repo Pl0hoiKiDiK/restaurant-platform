@@ -4,11 +4,14 @@ export type MenuCategory =
   | 'Drinks'
   | 'Dessert';
 
-export interface OrderItem {
+export interface MenuItem {
   id: string;
   name: string;
   category: MenuCategory;
   price: number;
+}
+
+export interface OrderItem extends MenuItem {
   quantity: number;
   comment?: string;
 }
