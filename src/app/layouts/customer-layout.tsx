@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import type { ChangeEvent, PropsWithChildren } from "react";
 import { toast } from "sonner";
@@ -35,13 +36,17 @@ export function CustomerLayout({
   return (
     <div className="min-h-screen overflow-hidden bg-white text-[#222222]">
       <header className="relative z-10 flex h-[62px] items-center bg-white px-6 shadow-[0_3px_8px_rgba(0,0,0,0.10)]">
-        <div className="flex w-[300px] shrink-0 items-center">
+        <Link
+          aria-label="Go to workspace selection"
+          className="flex w-[300px] shrink-0 items-center"
+          to="/"
+        >
           <img
             alt="Best Restaurants"
             className="h-3 w-[180px]"
             src={bestRestaurantsIcon}
           />
-        </div>
+        </Link>
 
         <div className="flex h-8 w-[156px] overflow-hidden rounded-[4px] border border-black/10">
           <button
