@@ -1,56 +1,80 @@
 # Restaurant Platform
 
-Учебное SPA для стажировки: поиск ресторанов, просмотр плана зала, работа с заказами и справочник сотрудников. Интерфейс реализован по макету Figma.
+Учебное SPA для управления ресторанной платформой: каталог ресторанов, интерактивная карта, план зала, работа с заказами и справочник сотрудников. Интерфейс реализован по макету Figma.
 
-**Репозиторий:** [Pl0hoiKiDiK/restaurant-platform](https://github.com/Pl0hoiKiDiK/restaurant-platform).
-
-**Деплой:** пока не опубликован. После публикации добавьте сюда URL. Настройки Vercel уже находятся в `vercel.json`.
+**Live demo:** [restaurant-platform-henna.vercel.app](https://restaurant-platform-henna.vercel.app)  
+**Repository:** [Pl0hoiKiDiK/restaurant-platform](https://github.com/Pl0hoiKiDiK/restaurant-platform)
 
 ## Возможности
 
-- Рестораны: загрузка из Firestore, поиск по названию/городу/кухне, фильтры и интерактивная карта.
-- Столы: свободные, занятые и зарезервированные столы на плане зала.
-- Заказ занятого стола: добавление и удаление блюд, количество, комментарии, скидка и завершение заказа.
-- Завершение заказа атомарно очищает активные позиции и освобождает стол. Итоги последнего закрытия сохраняются в `lastReceipt`; это не интеграция с оплатой.
-- Сотрудники: загрузка списка из Firestore и отображение статистики.
-- Состояния загрузки, ошибок и отсутствия данных.
+### Рестораны
 
-Некоторые элементы макета пока являются заглушками: дополнительные разделы CRM, уведомления, профиль, корзина, фильтры сотрудников, бонусы и массовое выделение. Они не относятся к обязательному функционалу задания. Начало нового заказа, бронирование и авторизация в текущий объём не входят. WebSocket-чат исключён из объёма работы.
+- Загрузка ресторанов из Cloud Firestore.
+- Поиск по названию, городу и кухне.
+- Фильтрация каталога.
+- Интерактивная карта на Leaflet и OpenStreetMap.
+- Карточки ресторанов с локальными WebP-изображениями.
 
-## Стек и зависимости
+### Столы и заказы
 
-| Задача                     | Инструменты                                                              |
-| -------------------------- | ------------------------------------------------------------------------ |
-| Интерфейс                  | React 19, TypeScript 6                                                   |
-| Сборка                     | Vite 8, `@vitejs/plugin-react`                                           |
-| Маршруты                   | TanStack Router 1, `@tanstack/router-plugin`                             |
-| Серверное состояние        | TanStack Query 5                                                         |
-| Данные                     | Firebase 12, Cloud Firestore Lite                                        |
-| UI и стили                 | Tailwind CSS 4, shadcn/ui, Base UI, `tw-animate-css`                     |
-| Классы компонентов         | `clsx`, `tailwind-merge`, `class-variance-authority`                     |
-| Карта                      | Leaflet, React Leaflet                                                   |
-| Уведомления, иконки, шрифт | Sonner, Lucide React, Geist                                              |
-| Качество                   | ESLint, typescript-eslint, React Hooks/Refresh plugins, Prettier, Vitest |
+- План зала со свободными, занятыми и зарезервированными столами.
+- Просмотр деталей стола и активного заказа.
+- Добавление и удаление блюд, изменение количества, комментарии и скидки.
+- Расчёт стоимости заказа в центах.
+- Атомарное завершение заказа: позиции очищаются, стол освобождается, итог закрытия сохраняется в `lastReceipt`.
+- Защита от конфликтов редактирования через поле `revision` и Firestore transactions.
 
-Полный список и диапазоны версий — в `package.json`, зафиксированные версии — в `package-lock.json`. Vitest и Prettier — инструменты разработки, в браузерный bundle не входят.
+### Сотрудники
 
-[Firestore Lite](https://firebase.google.com/docs/firestore/solutions/firestore-lite) использует REST и подходит для текущих запросов и изменений документов. Snapshot listeners и автономная запись не используются. Кэширование, повторные запросы и состояния загрузки реализованы через TanStack Query.
+- Загрузка списка сотрудников из Cloud Firestore.
+- Статистика, вычисляемая из данных базы.
+- Локальные WebP-аватары, сопоставленные с `avatarKey` из Firestore.
+
+### Общее
+
+- Loading, error и empty states.
+- Клиентская маршрутизация TanStack Router.
+- Кэширование и синхронизация серверного состояния через TanStack Query.
+- Production deployment на Vercel.
+
+## Стек
+
+| Задача               | Инструменты                           |
+| -------------------- | ------------------------------------- |
+| Интерфейс            | React 19, TypeScript 6                |
+| Сборка               | Vite 8, `@vitejs/plugin-react`        |
+| Маршрутизация        | TanStack Router                       |
+| Серверное состояние  | TanStack Query                        |
+| База данных          | Firebase 12, Cloud Firestore Lite     |
+| Карта                | Leaflet, React Leaflet, OpenStreetMap |
+| UI и стили           | Tailwind CSS 4, shadcn/ui, Base UI    |
+| Уведомления и иконки | Sonner, Lucide React                  |
+| Качество кода        | ESLint, Prettier, Vitest              |
+| CI и deploy          | GitHub Actions, Vercel                |
+
+Полный список зависимостей находится в [`package.json`](package.json), а зафиксированные версии — в [`package-lock.json`](package-lock.json).
 
 ## Локальный запуск
 
-Нужен Node.js 22.12+; для одинакового окружения с CI используйте Node.js 24.
+### Требования
+
+- Node.js 22.12 или выше.
+- npm.
+- Firebase project с созданной Cloud Firestore database.
+
+Установка зависимостей:
 
 ```bash
 npm ci
 ```
 
-Создайте `.env` на основе `.env.example`. В PowerShell:
+Создайте `.env` на основе шаблона:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Заполните переменные из настроек вашего Firebase Web App:
+Заполните значения из настроек Firebase Web App:
 
 ```dotenv
 VITE_FIREBASE_API_KEY=your-api-key
@@ -61,104 +85,118 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
 VITE_FIREBASE_APP_ID=your-app-id
 ```
 
-В Firebase должна быть создана база Cloud Firestore. Её правила должны разрешать операции текущему приложению. Этот репозиторий не меняет опубликованные Firebase Security Rules. Названия рабочих пространств не являются разграничением доступа: Firebase Authentication здесь не реализована.
-
-`VITE_*` — клиентская конфигурация, она попадает в сборку. Не помещайте сюда service-account ключи. Локальный `.env` исключён из Git.
+Запустите приложение:
 
 ```bash
 npm run dev
 ```
 
-Откройте адрес из терминала. После изменения `.env` перезапустите Vite.
+После изменения `.env` перезапустите Vite.
 
-### Данные для демонстрации
+> `VITE_*` — клиентская конфигурация. Не добавляйте в `.env` service-account keys или другие серверные секреты. Локальный `.env` исключён из Git.
 
-Коллекции:
+## Demo data
 
-| Коллекция     | Назначение                                                            |
-| ------------- | --------------------------------------------------------------------- |
-| `restaurants` | Рестораны, кухни, координаты и ключи локальных изображений            |
-| `employees`   | Сотрудники, смены и даты                                              |
-| `tables`      | Номер, статус и время резервирования стола                            |
-| `tableOrders` | Позиции заказа и версия `revision`; ID документа совпадает с ID стола |
+Приложение читает данные из Firestore. Для пустой учебной базы можно добавить демоданные.
 
-Для новой учебной базы можно добавить демоданные. Запустите Vite и выполните **в консоли браузера на локальном сайте**:
+Запустите приложение локально, откройте DevTools Console и выполните:
 
 ```js
 const { seedDemoData } = await import('/src/dev/seed-demo-data.ts');
 await seedDemoData();
 ```
 
-Затем обновите страницу. Сидирование создаёт только отсутствующие документы; существующие заказы не перезаписывает. Запуск возможен только в development. Если документов уже достаточно, сидирование не требуется. Данные находятся в `src/dev` и не используются как подмена Firestore в интерфейсе.
+Затем обновите страницу. Seed logic доступен только в development и предназначен для учебной базы; в production UI он не вызывается.
+
+| Коллекция     | Назначение                                           |
+| ------------- | ---------------------------------------------------- |
+| `restaurants` | Рестораны, кухни, координаты и ключи изображений     |
+| `employees`   | Сотрудники, смены и даты                             |
+| `tables`      | Номер, статус и время резервирования стола           |
+| `tableOrders` | Позиции заказа и `revision`; ID совпадает с ID стола |
 
 ## Архитектура
 
 ```text
 src/
-  app/                 # Router, providers, layouts, домашний экран
-  routes/              # Только объявления существующих маршрутов
+  app/                 # Router, providers, layouts и home page
+  routes/              # File-based route declarations
   features/
-    restaurants/
-    tables/
-    employees/
-      api/             # Чтение/запись Firestore
-      hooks/           # TanStack Query и логика интерфейса
-      pages/           # Композиция существующих экранов
-      components/      # Представление
-      lib/             # Преобразования, проверки, расчёты
-      types/           # Типы предметной области
-  components/          # Общие компоненты и используемые shadcn-компоненты
-  lib/                 # Firebase, имена коллекций, общие утилиты
-  dev/                 # Демоданные и явное сидирование
+    restaurants/       # Каталог, фильтры, карта, API и UI
+    tables/            # План зала, заказ, mutations и transactions
+    employees/         # Справочник сотрудников, API и UI
+  components/          # Общие UI-компоненты
+  lib/                 # Firebase, имена коллекций и утилиты
+  dev/                 # Демоданные и development seed logic
+  assets/              # Изображения, шрифты и иконки
 ```
 
-Файлы именуются в `kebab-case`; компоненты — в `PascalCase`; хуки — `useSomething`. Существующие `*.types.ts` обозначают типы предметной области. Общие функции не импортируются из соседней feature.
+Поток данных:
 
-Маршруты: `/`, `/restaurants`, `/staff/tables`, `/staff/tables/$tableId`, `/staff/employees`. Папки `pages` не создают новые маршруты.
+```text
+Component → Hook → API → Firestore
+```
 
-Поток данных: **компонент → hook → API → Firestore**. Данные из базы проверяются во время выполнения; TypeScript сам по себе не валидирует сетевой ответ. Локальное состояние формы отделено от серверного кэша.
+Внутри feature-модулей используются `api`, `components`, `hooks`, `lib`, `pages` и `types`. Firestore-документы проверяются runtime parsers перед использованием в интерфейсе.
 
-При изменении заказа API сверяет `revision` внутри транзакции. Устаревшая вкладка получает ошибку и обновляет кэш вместо перезаписи более свежего заказа. При закрытии заказа изменяются оба документа в одной транзакции. Денежные расчёты выполняются в центах.
+| Route                    | Назначение                          |
+| ------------------------ | ----------------------------------- |
+| `/`                      | Главный экран                       |
+| `/restaurants`           | Каталог ресторанов, фильтры и карта |
+| `/staff/tables`          | План столов                         |
+| `/staff/tables/$tableId` | Детали стола и заказ                |
+| `/staff/employees`       | Справочник сотрудников              |
 
-`src/routeTree.gen.ts` автоматически создаёт TanStack Router. Его `any` и `@ts-nocheck` принадлежат генератору; вручную файл не редактируется. В написанном вручную TypeScript явный `any` запрещён ESLint.
+`src/routeTree.gen.ts` генерируется TanStack Router автоматически и не редактируется вручную.
 
 ## Проверки
 
 ```bash
+npm run format:check
 npm run lint
 npm run test
 npm run build
-npm run format:check
-# Все проверки одной командой:
+```
+
+Полная проверка перед commit или deploy:
+
+```bash
 npm run check
 ```
 
-`npm run format` применяет форматирование, `npm run test:watch` запускает тесты в режиме наблюдения. В GitHub Actions добавлена такая же проверка качества.
+Команда запускает Prettier, ESLint, Vitest и production build. Тесты покрывают расчёт заказа, пустой заказ, конфликты `revision` и транзакционное закрытие заказа.
 
-Тесты покрывают некорректные данные, расчёты сумм, пустой заказ, конфликт версий и транзакционное закрытие. В тестах операций Firestore подменяется; они не изменяют живую базу и не проверяют опубликованные Security Rules.
-
-Для проверки production-сборки:
+Дополнительные команды:
 
 ```bash
-npm run build
-npm run preview
+npm run format       # Применить форматирование
+npm run test:watch   # Запустить тесты в watch mode
+npm run preview      # Локально открыть production build
 ```
 
-## Деплой на Vercel
+## Деплой
 
-1. Опубликуйте изменения в GitHub и импортируйте репозиторий в Vercel.
-2. Выберите Vite; команда сборки — `npm run build`, каталог — `dist`.
-3. Добавьте переменные из `.env.example` в настройки окружения проекта Vercel.
-4. Выполните deploy. `vercel.json` содержит SPA rewrite для прямого открытия вложенных маршрутов.
-5. Проверьте обновление страницы по адресу `/staff/tables/table-3`, чтение и изменение Firestore, карту.
-6. Добавьте реальный URL в начало README.
+Приложение опубликовано на Vercel: [restaurant-platform-henna.vercel.app](https://restaurant-platform-henna.vercel.app).
 
-Карта использует Stadia Maps. Доступность тайлов на опубликованном домене нужно проверить отдельно; провайдер может требовать настройки домена/учётной записи.
+Конфигурация находится в [`vercel.json`](vercel.json). В Vercel заданы переменные окружения из [`.env.example`](.env.example), а SPA rewrite позволяет открывать и обновлять вложенные client-side routes напрямую.
 
-## Сдача
+## Ограничения
 
-Подробная сверка требований и оставшиеся пункты находятся в [docs/submission-checklist.md](docs/submission-checklist.md).
+Следующие элементы не входят в текущий scope или остаются визуальными заглушками:
 
-Коммиты удобно делить по смыслу: `refactor: organize feature pages and shared utilities`, `fix: validate and synchronize table orders`, `docs: document setup and submission status`. Не объединяйте несвязанные изменения только ради количества коммитов.
+- Дополнительные разделы CRM.
+- Уведомления, профиль, корзина и бонусная программа.
+- Фильтры сотрудников и массовое выделение.
+- Создание нового заказа и бронирование стола.
+- Firebase Authentication и ролевая модель доступа.
+- WebSocket-чат.
+- Интеграция с реальными платежами: `lastReceipt` хранит только итог закрытого заказа.
 
-Результаты локального Lighthouse-аудита и условия проверки: [docs/lighthouse.md](docs/lighthouse.md). Четыре страницы проходят порог 90 во всех категориях; мобильная карта пока имеет Performance 83.
+Firebase web configuration не заменяет правила доступа к данным. Для приложения с реальными данными нужно настроить Firebase Authentication и Cloud Firestore Security Rules.
+
+## Документация
+
+- [Checklist для сдачи](docs/submission-checklist.md)
+- [Lighthouse audit](docs/lighthouse.md)
+- [Vercel configuration](vercel.json)
+- [Environment variable template](.env.example)
