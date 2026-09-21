@@ -20,6 +20,7 @@ export function OrderTotal({
     Math.round((Math.round(subtotal * 100) * discountPercent) / 100) / 100;
   const total = (Math.round(subtotal * 100) - Math.round(discountAmount * 100)) / 100;
   const isDisabled = isUpdating || isCompleting;
+  const discountLabel = discountPercent > 0 ? `Discount ${discountPercent}%` : 'Discount';
 
   return (
     <section className="mt-4 pt-4">
@@ -44,18 +45,26 @@ export function OrderTotal({
           {formatPrice(total)}
         </span>
 
-        <div className="flex min-h-[39px] w-full flex-wrap items-center justify-center gap-2 sm:w-[250px] sm:justify-end sm:gap-4">
+        <div
+          className={[
+            'flex min-h-[39px] w-full flex-wrap items-center justify-center gap-2 sm:justify-end sm:gap-4',
+            discountPercent > 0 ? 'sm:w-[279px]' : 'sm:w-[250px]',
+          ].join(' ')}
+        >
           <button
-            className="h-[39px] min-w-0 max-w-[103px] flex-1 sm:w-[103px] sm:flex-none rounded-[4px] border border-black bg-white text-xs sm:text-base font-bold text-[#222222] transition-colors hover:bg-[#F2F2F2] disabled:cursor-not-allowed disabled:opacity-50"
+            className={[
+              'h-[39px] shrink-0 rounded-[4px] border border-black bg-white px-3 text-xs font-bold whitespace-nowrap text-[#222222] transition-colors hover:bg-[#F2F2F2] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base',
+              discountPercent > 0 ? 'min-w-[119px] sm:w-[132px]' : 'w-[103px]',
+            ].join(' ')}
             disabled={isDisabled}
             onClick={onDiscountClick}
             type="button"
           >
-            {discountPercent > 0 ? `Discount ${discountPercent}%` : 'Discount'}
+            {discountLabel}
           </button>
 
           <button
-            className="h-[39px] min-w-0 max-w-[131px] flex-1 sm:w-[131px] sm:flex-none rounded-[4px] bg-[#212529] text-xs sm:text-base font-bold text-white transition-colors hover:bg-[#3D4247] disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-[39px] w-[131px] shrink-0 rounded-[4px] bg-[#212529] text-xs font-bold text-white transition-colors hover:bg-[#3D4247] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
             disabled={isDisabled || subtotal === 0}
             onClick={onCheckOrder}
             type="button"
